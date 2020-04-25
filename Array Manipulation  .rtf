@@ -1,144 +1,71 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2512
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Menlo-Bold;
-\f3\fnil\fcharset0 Menlo-Regular;}
-{\colortbl;\red255\green255\blue255;\red69\green85\blue94;\red255\green255\blue255;\red13\green16\blue23;
-\red240\green245\blue245;\red0\green0\blue0;\red20\green0\blue195;\red43\green50\blue61;\red246\green246\blue246;
-\red255\green255\blue255;\red93\green108\blue121;\red0\green0\blue0;\red28\green0\blue207;\red155\green35\blue147;
+Problem Statement:
+
+Starting with a 1-indexed array of zeros and a list of operations, for each operation add a value to each of the array element between two given indices, inclusive. Once all operations have been performed, return the maximum value in your array.
+For example, the length of your array of zeros . Your list of queries is as follows:
+    a b k
+    1 5 3
+    4 8 7
+    6 9 1
+Add the values of between the indices and inclusive:
+index->	 1 2 3  4  5 6 7 8 9 10
+	[0,0,0, 0, 0,0,0,0,0, 0]
+	[3,3,3, 3, 3,0,0,0,0, 0]
+	[3,3,3,10,10,7,7,7,0, 0]
+	[3,3,3,10,10,8,8,8,1, 0]
+The largest value is after all operations are performed.
+Function Description
+Complete the function arrayManipulation in the editor below. It must return an integer, the maximum value in the resulting array.
+arrayManipulation has the following parameters:
+	•	n - the number of elements in your array
+	•	queries - a two dimensional array of queries where each queries[i] contains three integers, a, b, and k.
+Input Format
+The first line contains two space-separated integers and , the size of the array and the number of operations. 
+Each of the next lines contains three space-separated integers , and , the left index, right index and summand.
+Constraints
+	•	
+	•	
+	•	
+	•	
+Output Format
+Return the integer maximum value in the finished array.
+Sample Input
+5 3
+1 2 100
+2 5 100
+3 4 100
+Sample Output
+200
+Explanation
+After the first update list will be 100 100 0 0 0. 
+After the second update list will be 100 200 100 100 100. 
+After the third update list will be 100 200 200 200 100. 
+The required answer will be 200
+
+
+Solution:
+
+// Complete the arrayManipulation function below.
+
+long arrayManipulation(int n, vector<vector<int>> queries) {
+
+vector<long> manipulateVct(n + 2, 0);
+    for (int i=0; i< queries.size(); i++) {
+         vector<int> vectNew =  queries[i];
+        
+        manipulateVct[vectNew[0]] += vectNew[2];
+        manipulateVct[vectNew[1] + 1] -= vectNew[2];
+    }
+
+     //Prefix Sum Algorithm
+    for (int j=0; j< manipulateVct.size(); j++ ) {
+        
+       if(j != 0 ){
+           manipulateVct[j] = manipulateVct[j] + manipulateVct[j-1];
+       }
+    }
+    
+    sort(manipulateVct.begin(), manipulateVct.end());
+    
+    return manipulateVct.back();
+
 }
-{\*\expandedcolortbl;;\cssrgb\c34118\c40784\c44314;\cssrgb\c100000\c100000\c100000;\cssrgb\c5490\c7843\c11765;
-\cssrgb\c95294\c96863\c96863;\cssrgb\c0\c0\c0;\cssrgb\c10980\c392\c80784;\cssrgb\c22353\c25882\c30588;\cssrgb\c97255\c97255\c97255;
-\csgenericrgb\c100000\c100000\c100000;\csgenericrgb\c36526\c42188\c47515;\csgenericrgb\c0\c0\c0\c85000;\csgenericrgb\c11000\c0\c81000;\csgenericrgb\c60759\c13753\c57628;
-}
-{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
-{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
-{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
-\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-
-\f0\b\fs24 \cf0 Problem Statement:\
-\
-\pard\pardeftab720\partightenfactor0
-
-\f1\b0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
-Starting with a 1-indexed array of zeros and a list of operations, for each operation add a value to each of the array element between two given indices, inclusive. Once all operations have been performed, return the maximum value in your array.\cb1 \
-\cb3 For example, the length of your array of zeros . Your list of queries is as follows:\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb5     a b k\
-    \cf7 1\cf4  \cf7 5\cf4  \cf7 3\cf4 \
-    \cf7 4\cf4  \cf7 8\cf4  \cf7 7\cf4 \
-    \cf7 6\cf4  \cf7 9\cf4  \cf7 1\cf4 \
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 Add the values of between the indices and inclusive:\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb5 index->	 \cf7 1\cf4  \cf7 2\cf4  \cf7 3\cf4   \cf7 4\cf4   \cf7 5\cf4  \cf7 6\cf4  \cf7 7\cf4  \cf7 8\cf4  \cf7 9\cf4  \cf7 10\cf4 \
-	[\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 , \cf7 0\cf4 , \cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 , \cf7 0\cf4 ]\
-	[\cf7 3\cf4 ,\cf7 3\cf4 ,\cf7 3\cf4 , \cf7 3\cf4 , \cf7 3\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 , \cf7 0\cf4 ]\
-	[\cf7 3\cf4 ,\cf7 3\cf4 ,\cf7 3\cf4 ,\cf7 10\cf4 ,\cf7 10\cf4 ,\cf7 7\cf4 ,\cf7 7\cf4 ,\cf7 7\cf4 ,\cf7 0\cf4 , \cf7 0\cf4 ]\
-	[\cf7 3\cf4 ,\cf7 3\cf4 ,\cf7 3\cf4 ,\cf7 10\cf4 ,\cf7 10\cf4 ,\cf7 8\cf4 ,\cf7 8\cf4 ,\cf7 8\cf4 ,\cf7 1\cf4 , \cf7 0\cf4 ]\
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 The largest value is after all operations are performed.\cb1 \
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf4 \cb3 Function Description
-\f1\b0 \cf2 \cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 Complete the function arrayManipulation in the editor below. It must return an integer, the maximum value in the resulting array.\cb1 \
-\cb3 arrayManipulation has the following parameters:\cb1 \
-\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
-\ls1\ilvl0\cf2 \cb3 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
-n - the number of elements in your array\cb1 \
-\ls1\ilvl0\cb3 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
-queries - a two dimensional array of queries where each queries[i] contains three integers, a, b, and k.\cb1 \
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf4 \cb3 Input Format
-\f1\b0 \cf2 \cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 The first line contains two space-separated integers and , the size of the array and the number of operations. \cb1 \
-\cb3 Each of the next lines contains three space-separated integers , and , the left index, right index and summand.\cb1 \
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf4 \cb3 Constraints
-\f1\b0 \cf2 \cb1 \
-\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
-\ls2\ilvl0\cf2 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
-\
-\ls2\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
-\
-\ls2\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
-\
-\ls2\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
-\
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf4 \cb3 Output Format
-\f1\b0 \cf2 \cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 Return the integer maximum value in the finished array.\cb1 \
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf4 \cb3 Sample Input
-\f1\b0 \cf2 \cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf8 \cb5 5 3\
-1 2 100\
-2 5 100\
-3 4 100\
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf4 \cb3 Sample Output
-\f1\b0 \cf2 \cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf8 \cb5 200\
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf4 \cb3 Explanation
-\f1\b0 \cf2 \cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 After the first update list will be \cf8 \cb9 100 100 0 0 0\cf2 \cb3 . \cb1 \
-\cb3 After the second update list will be \cf8 \cb9 100 200 100 100 100\cf2 \cb3 . \cb1 \
-\cb3 After the third update list will be \cf8 \cb9 100 200 200 200 100\cf2 \cb3 . \cb1 \
-\cb3 The required answer will be 200\
-\
-\
-
-\f0\b \cf6 Solution:\
-\
-\pard\tx593\pardeftab593\pardirnatural\partightenfactor0
-
-\f2\fs24 \cf6 \cb10 \kerning1\expnd0\expndtw0 // Complete the arrayManipulation function below.
-\f3\b0 \cf11 \
-\cf12 \
-long 
-\f2\b arrayManipulation
-\f3\b0 (int n, vector<vector<int>> queries) \{\
-\
-vector<long> manipulateVct(n + \cf13 2\cf12 , \cf13 0\cf12 );\
-    
-\f2\b \cf14 for
-\f3\b0 \cf12  (int i=\cf13 0\cf12 ; i< queries.size(); i++) \{\
-         vector<int> vectNew =  queries[i];\
-        \
-        manipulateVct[vectNew[\cf13 0\cf12 ]] += vectNew[\cf13 2\cf12 ];\
-        manipulateVct[vectNew[\cf13 1\cf12 ] + \cf13 1\cf12 ] -= vectNew[\cf13 2\cf12 ];\
-    \}\
-\
-     \cf11 //Prefix Sum Algorithm\cf12 \
-    
-\f2\b \cf14 for
-\f3\b0 \cf12  (int j=\cf13 0\cf12 ; j< manipulateVct.size(); j++ ) \{\
-        \
-       
-\f2\b \cf14 if
-\f3\b0 \cf12 (j != \cf13 0\cf12  )\{\
-           manipulateVct[j] = manipulateVct[j] + manipulateVct[j-\cf13 1\cf12 ];\
-       \}\
-    \}\
-    \
-    sort(manipulateVct.begin(), manipulateVct.end());\
-    \
-    
-\f2\b \cf14 return
-\f3\b0 \cf12  manipulateVct.back();\
-\
-\}}
