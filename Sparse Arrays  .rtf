@@ -1,6 +1,54 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2512
-\cocoatextscaling0\cocoaplatform0{\fonttbl}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+# Sparse Array
+
+There is a collection of input strings and a collection of query strings. For each query string, determine how many times it occurs in the list of input strings.
+For example, given input  and , we find  instances of ',  of '' and  of ''. For each query, we add an element to our return array, .
+Function Description
+Complete the function matchingStrings in the editor below. The function must return an array of integers representing the frequency of occurrence of each query string in strings.
+matchingStrings has the following parameters:
+strings - an array of strings to search
+queries - an array of query strings
+Input Format
+The first line contains and integer , the size of . 
+Each of the next  lines contains a string . 
+The next line contains , the size of . 
+Each of the next  lines contains a string .
+Constraints
+ 
+ 
+ .
+Output Format
+Return an integer array of the results of all queries in order.
+
+Sample Input:
+String =  aba|baba|aba|xzxb
+Query  =  aba|xzxb|ab
+
+Output:
+2
+1
+0
+
+
+
+Solution:
+
+// Complete the matchingStrings function below.
+vector<int> matchingStrings(vector<string> strings, vector<string> queries) {
+
+vector<int> queryResult(queries.size(),0);
+
+for(int i=0; i<queries.size(); i++){
+
+    for(int j=0; j< strings.size(); j++){
+
+        if(queries[i] == strings[j]){
+            queryResult[i] += 1;
+        }
+    }
 }
+
+return  queryResult;
+
+
+}
+
